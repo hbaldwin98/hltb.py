@@ -4,6 +4,7 @@ import time
 import argparse
 import logging
 
+log_level = logging.INFO
 logger = logging.getLogger(__name__)
 verbose = False
 
@@ -52,7 +53,7 @@ def to_csv(games, file_name='game_list.csv'):
         logger.debug('End writing to file: %s', file_name)
 
 def main():
-    global verbose
+    global verbose, log_level
 
     parser = argparse.ArgumentParser(
         prog='HowLongToBeat Search',
@@ -65,11 +66,9 @@ def main():
     parser.add_argument('-c', '--csv', action=argparse.BooleanOptionalAction)
     parser.add_argument('-f', '--filename')
     parser.add_argument('-v', '--verbose', action=argparse.BooleanOptionalAction)
-
     args = parser.parse_args()
 
     verbose = args.verbose
-    log_level = logging.INFO
 
     if verbose:
         log_level = logging.DEBUG
@@ -100,7 +99,7 @@ def main():
             to_csv(games)
 
     for game in games:
-        logger.debug('Games found:\n\nGame\t\t %s\nMain\t\t %s\nMain-Extra\t %s\nCompletionist\t %s\n',
+        logger.info('Games found:\n\nGame\t\t %s\nMain\t\t %s\nMain-Extra\t %s\nCompletionist\t %s\n',
             str(game.game_name),
             str(game.main_story),
             str(game.main_extra),
